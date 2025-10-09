@@ -1,7 +1,8 @@
 import "./App.css";
+import GroceriesAppContainer from './components/GroceriesAppContainer.jsx'
 
 function App() {
-  return <>{/* Add your code here! */}</>;
+  return <>{<GroceriesAppContainer />}</>;
 }
 
 export default App;
