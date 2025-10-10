@@ -1,11 +1,18 @@
 import "../App.css";
 
-function QuantityCounter() {
+function QuantityCounter({product, modifyQuantityCounter}) {
+    const addQuantityCounter = () => {
+        modifyQuantityCounter(product.id, true);
+    };
+    const minusQuantityCounter = () => {
+        modifyQuantityCounter(product.id, false);
+    };
+
     return (
         <div className="counter-container">
-            <button className="QuantityBtn">-</button>
-            <span>0</span>
-            <button className="QuantityBtn">+</button>
+            <button onClick={minusQuantityCounter} className="QuantityBtn">-</button>
+            <span>{product.quantityCounter}</span>
+            <button onClick={addQuantityCounter} className="QuantityBtn">+</button>
         </div>
       );
 }

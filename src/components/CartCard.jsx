@@ -1,18 +1,22 @@
 import "../App.css";
 import QuantityCounter from './QuantityCounter.jsx'
 
-function CartCard({ cartCard }) {
+function CartCard({ product, modifyQuantityCounter, modifyCartCards }) {
+    const removeCartCard = () => {
+        modifyCartCards(product.id, false);
+    };
+
     return (
         <div className="CartCard">
             <div className="CartCardInfo">
-                <img src={cartCard.image}></img>
-                <h4>{cartCard.productName}</h4>
-                <p>{cartCard.price}</p>
-                <QuantityCounter />
+                <img src={product.image}></img>
+                <h4>{product.productName}</h4>
+                <p>{product.price}</p>
+                <QuantityCounter product={product} modifyQuantityCounter={modifyQuantityCounter} />
             </div>
             <div>
                 <p>Total: </p>
-                <button className="RemoveButton">Remove</button>
+                <button onClick={removeCartCard} className="RemoveButton">Remove</button>
             </div>
         </div>
       );
