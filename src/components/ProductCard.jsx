@@ -1,4 +1,5 @@
 import "../App.css";
+import QuantityCounter from './QuantityCounter.jsx'
 
 function ProductCard({ product }) {
     return (
@@ -6,11 +7,7 @@ function ProductCard({ product }) {
             <h4>{product.productName}</h4>
             <img src={product.image}></img>
             <h5>{product.brand}</h5>
-            <div className="ProductQuantityDiv">
-                <button className="QuantityBtn">-</button>
-                <span>0</span>
-                <button className="QuantityBtn">+</button>
-            </div>
+            <QuantityCounter />
             <p>{product.price}</p>
             <button>Add to Cart</button>
         </div>
