@@ -14,6 +14,15 @@ function GroceriesAppContainer() {
         }))
     );
     const [cartCards, setCartCards] = useState([]);
+    const [imageNavCart, setImageNavCart] = useState("src/assets/cart-empty.png");
+
+    // modify imageNavCart
+    // newCartCards: new cartCards after the cartCards was changed
+    const modifyImageNavCart = (newCartCards) => {
+        let imgPath = "src/assets/cart-full.png";
+        if (newCartCards.length === 0) imgPath = "src/assets/cart-empty.png";
+        setImageNavCart(imgPath);
+    };
 
     // modify quantityCounter
     // id: the id of the product
@@ -66,12 +75,17 @@ function GroceriesAppContainer() {
                 // add to cart
                 if (prevCartCards.includes(id)) return prevCartCards;
                 modifyInCart(id, true);
-                return [...prevCartCards, id];
+                setImageNavCart("src/assets/cart-full.png");
+                const newCartCards = [...prevCartCards, id];
+                modifyImageNavCart(newCartCards);
+                return newCartCards;
             } else {
                 // remove from cart
                 modifyInCart(id, false);
                 emptyQuantityCounter(id);
-                return prevCartCards.filter(cartId => cartId !== id);
+                const newCartCards = prevCartCards.filter(cartId => cartId !== id);
+                modifyImageNavCart(newCartCards);
+                return newCartCards;
             }
         });
     };
@@ -84,13 +98,14 @@ function GroceriesAppContainer() {
                 modifyInCart(cartCardID, false);
                 emptyQuantityCounter(cartCardID);
             });
+            modifyImageNavCart([]);
             return [];
         });
     };
 
     return (
         <div>
-            <NavBar />
+            <NavBar imageNavCart={imageNavCart} />
             <div className="GroceriesApp-Container">
                 <ProductsContainer products={productList} modifyQuantityCounter={modifyQuantityCounter} 
                     modifyCartCards={modifyCartCards} />
