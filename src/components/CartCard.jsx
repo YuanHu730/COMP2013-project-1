@@ -15,7 +15,7 @@ function CartCard({ product, modifyQuantityCounter, modifyCartCards }) {
                 <QuantityCounter product={product} modifyQuantityCounter={modifyQuantityCounter} />
             </div>
             <div>
-                <p>Total: </p>
+                <p>Total: ${product.totalPrice}</p>
                 <button onClick={removeCartCard} className="RemoveButton">Remove</button>
             </div>
         </div>

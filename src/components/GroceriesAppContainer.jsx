@@ -9,12 +9,27 @@ function GroceriesAppContainer() {
     const [productList, setProductList] = useState(
         products.map(product => ({
           ...product,
+          priceFloat: parseFloat(product.price.replace('$', '')),
+          totalPrice: 0,  // totalPrice = quantityCounter * priceFloat
           quantityCounter: 0,  // the quantity of the product that is able to be modified by users on pages
           inCart: false  // equals true after the product is added to cartCards; equals false after the product is removed from cartCards; 
         }))
     );
     const [cartCards, setCartCards] = useState([]);
+    const [totalPriceForCartCards, setTotalPriceForCartCards] = useState(0);
     const [imageNavCart, setImageNavCart] = useState("src/assets/cart-empty.png");
+
+    // modify totalPriceForCartCards
+    // newCartCards: new cartCards after the cartCards was changed
+    // newProductList: new new productList after the productList was changed
+    const modifyTotalPriceForCartCards = (newCartCards, newProductList=productList) => {
+        let totalPrice = 0;
+        newCartCards.forEach(cartCardID => {
+            const index = newProductList.findIndex(p => p.id === cartCardID);
+            totalPrice += newProductList[index].totalPrice;
+        });
+        setTotalPriceForCartCards(totalPrice);
+    };
 
     // modify imageNavCart
     // newCartCards: new cartCards after the cartCards was changed
@@ -37,7 +52,9 @@ function GroceriesAppContainer() {
             }
             const newQuantityCounter = isAdd ? newProductList[index].quantityCounter + 1 : 
                                                Math.max(newProductList[index].quantityCounter - 1, minQuantityCounter);
-            newProductList[index] = { ...newProductList[index], quantityCounter: newQuantityCounter };
+            const totalPrice = newQuantityCounter * newProductList[index].priceFloat;
+            newProductList[index] = { ...newProductList[index], quantityCounter: newQuantityCounter, totalPrice: totalPrice };
+            modifyTotalPriceForCartCards(cartCards, newProductList);
             return newProductList;
         });
     };
@@ -48,7 +65,7 @@ function GroceriesAppContainer() {
         setProductList(prevProductList => {
             const index = prevProductList.findIndex(p => p.id === id);
             const newProductList = [...prevProductList];
-            newProductList[index] = { ...newProductList[index], quantityCounter: 0 };
+            newProductList[index] = { ...newProductList[index], quantityCounter: 0, totalPrice: 0 };
             return newProductList;
         });
     };
@@ -74,10 +91,14 @@ function GroceriesAppContainer() {
             if (isAdd) {
                 // add to cart
                 if (prevCartCards.includes(id)) return prevCartCards;
+                if (productList[productList.findIndex(p => p.id === id)].quantityCounter === 0) 
+                    // if the quantityCounter of the product equals 0, the product can not be added to cartCards
+                    return prevCartCards;
                 modifyInCart(id, true);
                 setImageNavCart("src/assets/cart-full.png");
                 const newCartCards = [...prevCartCards, id];
                 modifyImageNavCart(newCartCards);
+                modifyTotalPriceForCartCards(newCartCards);
                 return newCartCards;
             } else {
                 // remove from cart
@@ -85,6 +106,7 @@ function GroceriesAppContainer() {
                 emptyQuantityCounter(id);
                 const newCartCards = prevCartCards.filter(cartId => cartId !== id);
                 modifyImageNavCart(newCartCards);
+                modifyTotalPriceForCartCards(newCartCards);
                 return newCartCards;
             }
         });
@@ -99,6 +121,7 @@ function GroceriesAppContainer() {
                 emptyQuantityCounter(cartCardID);
             });
             modifyImageNavCart([]);
+            modifyTotalPriceForCartCards([]);
             return [];
         });
     };
@@ -111,7 +134,7 @@ function GroceriesAppContainer() {
                     modifyCartCards={modifyCartCards} />
                 <CartContainer products={productList} cartCards={cartCards} 
                     modifyCartCards={modifyCartCards} emptyCartCards={emptyCartCards} 
-                    modifyQuantityCounter={modifyQuantityCounter}  />
+                    modifyQuantityCounter={modifyQuantityCounter} totalPriceForCartCards={totalPriceForCartCards} />
             </div>
         </div>
     );

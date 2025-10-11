@@ -4,8 +4,6 @@ import QuantityCounter from './QuantityCounter.jsx'
 function ProductCard({ product, modifyQuantityCounter, modifyCartCards }) {
     const addToCart = () => {
         modifyCartCards(product.id, true);
-        // if quantityCounter still equals 0 after Add to Cart, quantityCounter will be added by 1
-        if (product.quantityCounter === 0) modifyQuantityCounter(product.id, true);
     };
 
     return (
