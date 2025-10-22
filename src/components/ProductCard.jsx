@@ -1,7 +1,7 @@
 import "../App.css";
 import QuantityCounter from './QuantityCounter.jsx'
 
-function ProductCard({ product, modifyQuantityCounter, modifyCartCards }) {
+function ProductCard({ product, modifyNewQuantityCounter, modifyCartCards }) {
     const addToCart = () => {
         modifyCartCards(product.id, true);
     };
@@ -11,7 +11,7 @@ function ProductCard({ product, modifyQuantityCounter, modifyCartCards }) {
             <h4>{product.productName}</h4>
             <img src={product.image}></img>
             <h5>{product.brand}</h5>
-            <QuantityCounter product={product} modifyQuantityCounter={modifyQuantityCounter} />
+            <QuantityCounter product={product} modifyQuantityCounter={modifyNewQuantityCounter} />
             <p>{product.price}</p>
             <button onClick={addToCart}>Add to Cart</button>
         </div>

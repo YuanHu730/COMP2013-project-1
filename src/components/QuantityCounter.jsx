@@ -1,6 +1,7 @@
 import "../App.css";
 
-function QuantityCounter({product, modifyQuantityCounter}) {
+function QuantityCounter({product, modifyQuantityCounter, calledByCart=false}) {
+    // the parameter calledByCart for identifying if this component is called by CartCard or ProductCard
     const addQuantityCounter = () => {
         modifyQuantityCounter(product.id, true);
     };
@@ -11,7 +12,7 @@ function QuantityCounter({product, modifyQuantityCounter}) {
     return (
         <div className="counter-container">
             <button onClick={minusQuantityCounter} className="QuantityBtn">-</button>
-            <span>{product.quantityCounter}</span>
+            <span>{calledByCart ? product.quantityCounter : product.newQuantityCounter}</span>
             <button onClick={addQuantityCounter} className="QuantityBtn">+</button>
         </div>
       );

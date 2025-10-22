@@ -1,11 +1,11 @@
 import "../App.css";
 import ProductCard from './ProductCard.jsx'
 
-function ProductsContainer({ products, modifyQuantityCounter, modifyCartCards }) {
+function ProductsContainer({ products, modifyNewQuantityCounter, modifyCartCards }) {
     return (
         <div className="ProductsContainer">
             {products.map((product) => (
-                <ProductCard key={product.id} product={product} modifyQuantityCounter={modifyQuantityCounter} 
+                <ProductCard key={product.id} product={product} modifyNewQuantityCounter={modifyNewQuantityCounter} 
                     modifyCartCards={modifyCartCards} />
             ))}
         </div>

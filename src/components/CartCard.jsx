@@ -12,7 +12,9 @@ function CartCard({ product, modifyQuantityCounter, modifyCartCards }) {
                 <img src={product.image}></img>
                 <h4>{product.productName}</h4>
                 <p>{product.price}</p>
-                <QuantityCounter product={product} modifyQuantityCounter={modifyQuantityCounter} />
+                <QuantityCounter product={product} 
+                    modifyQuantityCounter={modifyQuantityCounter} 
+                    calledByCart={true}/>
             </div>
             <div>
                 <p>Total: ${product.totalPrice}</p>
