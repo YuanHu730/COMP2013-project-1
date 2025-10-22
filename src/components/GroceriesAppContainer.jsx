@@ -100,12 +100,8 @@ function GroceriesAppContainer() {
         setProductList(prevProductList => {
             const index = prevProductList.findIndex(p => p.id === id);
             const newProductList = [...prevProductList];
-            let minQuantityCounter = 0;
-            if (newProductList[index].inCart) {
-                minQuantityCounter = 1;
-            }
             const newQuantityCounter = isAdd ? newProductList[index].newQuantityCounter + 1 : 
-                                               Math.max(newProductList[index].newQuantityCounter - 1, minQuantityCounter);
+                                               Math.max(newProductList[index].newQuantityCounter - 1, 0);
             newProductList[index] = { ...newProductList[index], newQuantityCounter: newQuantityCounter };
             modifyTotalPriceForCartCards(cartCards, newProductList);
             return newProductList;

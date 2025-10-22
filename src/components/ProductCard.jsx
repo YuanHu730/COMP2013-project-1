@@ -3,7 +3,11 @@ import QuantityCounter from './QuantityCounter.jsx'
 
 function ProductCard({ product, modifyNewQuantityCounter, modifyCartCards }) {
     const addToCart = () => {
-        modifyCartCards(product.id, true);
+        if (product.newQuantityCounter <= 0) {
+            alert("Please enter a quantity before adding to the cart!");
+        } else {
+            modifyCartCards(product.id, true);
+        }
     };
 
     return (
