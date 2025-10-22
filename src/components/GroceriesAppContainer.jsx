@@ -46,10 +46,6 @@ function GroceriesAppContainer() {
         setProductList(prevProductList => {
             const index = prevProductList.findIndex(p => p.id === id);
             const newProductList = [...prevProductList];
-            let minQuantityCounter = 0;
-            if (newProductList[index].inCart) {
-                minQuantityCounter = 1;
-            }
             const modifiedQuantityCounter = newProductList[index].quantityCounter + newProductList[index].newQuantityCounter;
             const totalPrice = modifiedQuantityCounter * newProductList[index].priceFloat;
             newProductList[index] = { 
@@ -58,7 +54,10 @@ function GroceriesAppContainer() {
                 newQuantityCounter: 0,
                 totalPrice: totalPrice 
             };
-            modifyTotalPriceForCartCards(cartCards, newProductList);
+            let newCartCards;
+            if (cartCards.includes(id)) newCartCards = cartCards;
+            else newCartCards = [...cartCards, id];
+            modifyTotalPriceForCartCards(newCartCards, newProductList);
             return newProductList;
         });
     };
@@ -144,7 +143,6 @@ function GroceriesAppContainer() {
                 if (prevCartCards.includes(id)) newCartCards = prevCartCards;
                 else newCartCards = [...prevCartCards, id];
                 modifyImageNavCart(newCartCards);
-                modifyTotalPriceForCartCards(newCartCards);
                 return newCartCards;
             } else {
                 // remove from cart
